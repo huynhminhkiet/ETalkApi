@@ -6,7 +6,7 @@
     <groupId>com.bigcake</groupId>
     <artifactId>demojwt</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <name>Demo JWT</name>
     <description>Demo project for Spring Boot</description>
