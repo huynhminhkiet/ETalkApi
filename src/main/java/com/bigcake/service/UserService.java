@@ -39,4 +39,8 @@ public class UserService implements UserDetailsService{
         SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return mUserRepository.findByUsername((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
     }
+
+    public User addUser(User user) {
+        return mUserRepository.insert(user);
+    }
 }

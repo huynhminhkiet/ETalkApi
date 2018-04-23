@@ -18,17 +18,37 @@ public class User {
     private String username;
     private String password;
     private String fullname;
+    private int highScore;
+    private long lastActivity;
     private List<Authority> authorities;
 
     public User() {
     }
 
-    public User(String id, String username, String password, String fullname, List<Authority> authorities) {
+    public User(String id, String username, String password, String fullname, int highScore, long lastActivity, List<Authority> authorities) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.fullname = fullname;
+        this.highScore = highScore;
+        this.lastActivity = lastActivity;
         this.authorities = authorities;
+    }
+
+    public int getHighScore() {
+        return highScore;
+    }
+
+    public void setHighScore(int highScore) {
+        this.highScore = highScore;
+    }
+
+    public long getLastActivity() {
+        return lastActivity;
+    }
+
+    public void setLastActivity(long lastActivity) {
+        this.lastActivity = lastActivity;
     }
 
     public String getId() {
