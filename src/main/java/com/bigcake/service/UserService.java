@@ -9,12 +9,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Base64;
+
 /**
  * Created by Bigcake on 9/9/2017
  */
 
 @Service
-public class UserService implements UserDetailsService{
+public class UserService implements UserDetailsService {
     private UserRepository mUserRepository;
 
     @Autowired
@@ -25,13 +27,13 @@ public class UserService implements UserDetailsService{
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = mUserRepository.findByUsername(username);
-        if(user == null){
+        if (user == null) {
             throw new UsernameNotFoundException(username);
-        }else{
+        } else {
             return new org.springframework.security.core.userdetails.User(
-                            user.getUsername(),
-                            user.getPassword(),
-                            user.getAuthorities());
+                    user.getUsername(),
+                    new String(Base64.getDecoder().decode(user.getPassword())),
+                    user.getAuthorities());
         }
     }
 
@@ -41,6 +43,18 @@ public class UserService implements UserDetailsService{
     }
 
     public User addUser(User user) {
+        user.setPassword(Base64.getEncoder().encodeToString(user.getPassword().getBytes()));
         return mUserRepository.insert(user);
+    }
+
+    public int getRank() {
+        return mUserRepository.countUsersByHighScoreAfter(getUserLoggedIn().getHighScore()) + 1;
+    }
+
+    public int updateHighScore(int highScore) {
+        User user = getUserLoggedIn();
+        user.setHighScore(highScore);
+        mUserRepository.save(user);
+        return mUserRepository.countUsersByHighScoreAfter(user.getHighScore()) + 1;
     }
 }

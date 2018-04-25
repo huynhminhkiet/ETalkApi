@@ -25,12 +25,24 @@ public class UserController {
 
     @RequestMapping("/user/profile")
     public User getUserLoggedIn() {
-        return mUserService.getUserLoggedIn();
+        User user = mUserService.getUserLoggedIn();
+        user.setPassword(null);
+        return user;
     }
 
     @RequestMapping(path = "/user", method = RequestMethod.POST)
     public User addUser(@RequestBody User user) {
         user.setAuthorities(Collections.singletonList(new Authority("NORMAL_USER")));
         return mUserService.addUser(user);
+    }
+
+    @RequestMapping(path = "/user/rank", method = RequestMethod.GET)
+    public int getRank() {
+        return mUserService.getRank();
+    }
+
+    @RequestMapping(path = "/user/highScore/{highScore}", method = RequestMethod.PATCH)
+    public int updateHighScore(@PathVariable int highScore) {
+        return mUserService.updateHighScore(highScore);
     }
 }
